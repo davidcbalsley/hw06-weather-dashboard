@@ -17,18 +17,41 @@
     <!-- Main Bootstrap container -->
     <div class="container">
 
-        <!-- Jumbotron for title -->
-        <div class="jumbotron jumbotron-fluid">
-            <div class="jumbo-container">
-                <h1>
-                    Weather Dashboard
-                </h1>
+        <!-- Header for title -->
+        <nav class="navbar navbar-light bg-light">
+                <span class="navbar-brand mb-0 h1">Weather Dashboard</span>
+        </nav>
+
+        <!-- Bootstrap grid -->
+        <div class="row">
+
+            <!-- Column for search and city history-->
+            <div class="col-4-lg">
+                
+                <!-- Search text box and magnifying glass -->
+                <div class="input-group mb-3">
+                <!-- <h4>Search for a City:</h4> -->
+                    <input type="text" class="form-control" aria-label="city-input" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" id="city-search">Button</button>
+                        </div>
+                </div>
+
+
             </div>
+
+            <!-- Column for current weather and 5-day forecast -->
+            <div class="col-8-lg">
+                <span id="current-temperature-result"></span>
+
+            </div>
+
         </div>
 
     </div>
 
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
