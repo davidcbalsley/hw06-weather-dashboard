@@ -35,14 +35,20 @@
                             <button class="btn btn-outline-secondary" type="button" id="city-search">Button</button>
                         </div>
                 </div>
-
-
             </div>
 
             <!-- Column for current weather and 5-day forecast -->
             <div class="col-8-lg">
-                <span id="current-temperature-result"></span>
 
+                <!-- Row for the current weather conditions -->
+                <div class="row">
+                    <span id="current-temperature-result"></span>
+                </div>
+
+                <!-- Row for the 5-day forecast -->
+                <div class="row">
+                    <span id="five-day-forecast"></span>
+                </div>
             </div>
 
         </div>
@@ -51,6 +57,10 @@
 
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <!-- Moment API -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
     <script src="script.js"></script>
 </body>
 </html>
