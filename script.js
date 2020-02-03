@@ -39,6 +39,7 @@ $(document).ready(function() {
     // - Displaying 5-day forecast
 
     // For a given OpenWeather condition code, return the URL for the corresponding weather icon
+    /*
     function getWeatherIconURL (conditionCode) {
         // console.log("conditionCode = " + conditionCode); // debug
         var iconNumber = "";    // The number for the icon on OpenWeather
@@ -90,6 +91,7 @@ $(document).ready(function() {
             return null;
         }
     }
+    */
 
     // Display the current weather conditions
     function showCurrentWeatherCondiditons(cityName, currentWeatherResponse, currentWeatherUVResponse) {
@@ -109,8 +111,12 @@ $(document).ready(function() {
         dateString = moment().format("M") + "/" + moment().format("D") + "/" + moment().format("YYYY");
 
         // Get the URL for the icon that corresponds to the current weather
+        /*
         if (currentWeatherResponse && currentWeatherResponse.weather.length > 0) {
             currentWeatherIconURL = getWeatherIconURL(currentWeatherResponse.weather[0].id);
+        }*/
+        if ((currentWeatherResponse.weather) && (currentWeatherResponse.weather.length > 0)) {
+            currentWeatherIconURL = "http://openweathermap.org/img/wn/" + currentWeatherResponse.weather[0].icon + ".png";
         }
 
         // console.log("currentWeatherIconURL = " + currentWeatherIconURL); // debug
@@ -206,7 +212,7 @@ $(document).ready(function() {
     function showFiveDayForecast(forecastList) {
       
         if (forecastList) {
-            // Nothing yet
+            
         }
 
     }
