@@ -315,18 +315,48 @@ $(document).ready(function() {
             // If there are cities in local storage, point updatedCityNames to array
             // of those objects
             if (existingCityNames) {
-                updatedCityNames = existingCityNames;
-            }
+            //     updatedCityNames = existingCityNames;
+            // }
 
+                var indexForNewCity = existingCityNames.findIndex(function(item) {
+                        return item.name === cityName;
+                })
 
-            // Create new entry for local storage
-            var newCityNameForLocalStorage = {
+                if (indexForNewCity >= 0) {
+                    // Put the most recently searched city in first
+                    updatedCityNames.push(existingCityNames[indexForNewCity]);
+
+                    // Copy the elements from existingCityNames that precede the found object into updatedCityNames
+                    for (var i = 0; i < indexForNewCity; i++) {
+                        updatedCityNames.push(existingCityNames[i]);
+                    }
+
+                    // Copy the elements from existingCityNames that follow the found object into updatedCityNames
+                    for (var j = indexForNewCity + 1; j < existingCityNames.length; j++) {
+                        updatedCityNames.push(existingCityNames[j]);
+                    }
+
+                } else {
+                    updatedCityNames = existingCityNames;
+
+                    // Create new entry for local storage
+                    var newCityNameForLocalStorage = {
+                        name: cityName
+                    };
+
+                    updatedCityNames.unshift(newCityNameForLocalStorage); 
+                    // Use unshift to add value to beginning of array, so that most recently
+                    // searched city appears at top of list of buttons
+                }
+            } else {
+                // Nothing in local storage -- add new city to udpatedCityNames
+                // Create new entry for local storage
+                var newCityNameForLocalStorage = {
                     name: cityName
-            };
+                };
 
-            updatedCityNames.unshift(newCityNameForLocalStorage); 
-            // Use unshift to add value to beginning of array, so that most recently
-            // searched city appears at top of list of buttons
+                updatedCityNames.push(newCityNameForLocalStorage);
+            }
 
             // Store the list of city names in local storage
             localStorage.setItem("weather-city-name-history", JSON.stringify(updatedCityNames)); 
@@ -408,8 +438,7 @@ $(document).ready(function() {
 
 
 // to do
-// - Load city list on startup
-// - Store new cities
 // - Check the return code on AJAX calls
 // - Style the UV Index
 // - Split out the UV Index function
+// - Style everything
