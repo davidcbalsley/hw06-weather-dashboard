@@ -299,7 +299,27 @@ $(document).ready(function() {
     
     }
 
-    // Button listener for search magnifying glass button
+    function updateCityButtons(cityName) {
+        // Nothing yet
+
+        // As a start, just create new button and add it to screen
+        var newButton = $("<button>");
+        newButton.addClass("clickable-city-name");
+        newButton.text(cityName);
+
+        $("#clickable-city-names").prepend(newButton);
+    }
+
+    // 
+    function getAndDisplayWeatherForCity(cityName) {
+        if (cityName) {
+            getCurrentWeather(cityName);
+            getFiveDayForecast(cityName);
+            updateCityButtons(cityName);
+        }
+    }
+
+    // Event listener for search magnifying glass button
     $("#city-search").on("click", function () {
         var cityNameFromSearchButton = "";      // The namne of the city
 
@@ -308,14 +328,34 @@ $(document).ready(function() {
 
         // If the user entered a city in the search text box, get that city's current and 5-day weather
         if (cityNameFromSearchButton) {  
+            /*
             getCurrentWeather(cityNameFromSearchButton);
             getFiveDayForecast(cityNameFromSearchButton);
+            updateCityButtons(cityNameFromSearchButton);
+            */
+           getAndDisplayWeatherForCity(cityNameFromSearchButton);
         }
     });
+
+    // Event listener for clickable city names
+   $(document).on("click", ".clickable-city-name", function() {
+       // console.log("Yuo clicked on a city name!");
+        var cityNameFromClickableButton = "";
+
+        // Get the city name from the clickable button
+        cityNameFromClickableButton = $(this).text();
+        // console.log("cityNameFromClickableButton = " + cityNameFromClickableButton);
+
+        if (cityNameFromClickableButton) {
+            getAndDisplayWeatherForCity(cityNameFromClickableButton);
+        }
+   });
 });
 
+
+
 // to do
-// - Display 5-day forecast
+// - Create buttons for new cities
 // - Load city list on startup
 // - Store new cities
 // - Check the return code on AJAX calls
