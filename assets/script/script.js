@@ -94,21 +94,27 @@ $(document).ready(function() {
     */
 
     // Display the current weather conditions
-    function showCurrentWeatherCondiditons(cityName, currentWeatherResponse, currentWeatherUVResponse) {
-        var dateString = "";            // The current date, in MM/DD/YYYY format
+    // function showCurrentWeatherCondiditons(cityName, currentWeatherResponse, currentWeatherUVResponse) {
+    function showCurrentWeatherCondiditons(currentWeatherResponse, currentWeatherUVResponse) {
+        var cityName = "";              // The name of the city
+        var dateString = "";            // The current date, in M/D/YYYY format
         var currentWeatherIconURL = ""; // The URL for the icon that corresponds to the current weather
-        var currentTemp = "";           // The current temperature
-        var currentHumidity = "";       // The current humidity
-        var currentWindSpeed = "";      // The current wind speed
-        var currentUVIndex = "";        // The current UV index
+        // var currentTemp = "";           // The current temperature
+        // var currentHumidity = "";       // The current humidity
+        // var currentWindSpeed = "";      // The current wind speed
+        // var currentUVIndex = "";        // The current UV index
 
         console.log(currentWeatherResponse); // debug
 
         // Clear any current weather conditions
         $("#current-temperature-result").empty();
 
+        // Get the city name, date, and weather icon for the top of the page
+        cityName = currentWeatherResponse.name;
+
         // Make current date string
-        dateString = moment().format("M") + "/" + moment().format("D") + "/" + moment().format("YYYY");
+        // dateString = moment().format("M") + "/" + moment().format("D") + "/" + moment().format("YYYY");
+        dateString = moment().format("M/D/YYYY");
 
         // Get the URL for the icon that corresponds to the current weather
         /*
@@ -121,16 +127,8 @@ $(document).ready(function() {
 
         // console.log("currentWeatherIconURL = " + currentWeatherIconURL); // debug
 
-        // Get current weather conditions from response, copy to local variables
-        currentTemp = currentWeatherResponse.main.temp;
-        currentTemp = currentTemp.toFixed(1); // Show just one decimal point for temperature
-        currentHumidity = currentWeatherResponse.main.humidity;
-        currentWindSpeed = currentWeatherResponse.wind.speed;
-        currentWindSpeed = currentWindSpeed.toFixed(1); // Show just one decimal point for wind speed
-        currentUVIndex = currentWeatherUVResponse.value;
-
         // Create a div for the city name, date, and condition icon
-        var cityNameDiv = $("<div>");
+        // var cityNameDiv = $("<div>");
         var cityNameDateWeatherSpan = $("<span>");
         cityNameDateWeatherSpan.text(cityName + " (" + dateString + ") ");
 
@@ -139,7 +137,39 @@ $(document).ready(function() {
             currentWeatherIconImg.attr("src", currentWeatherIconURL);
             cityNameDateWeatherSpan.append(currentWeatherIconImg);
         }
-        cityNameDiv.append(cityNameDateWeatherSpan);
+        // cityNameDiv.append(cityNameDateWeatherSpan);
+
+        $("#current-temperature-result").append(cityNameDateWeatherSpan);
+
+        // Add temp
+        $("#current-temperature-result").append("<p>Temperature: " + currentWeatherResponse.main.temp.toFixed(1) + " °F</p>");
+
+        // Add humidity
+        $("#current-temperature-result").append("<p>Humidity: " + currentWeatherResponse.main.humidity + "%</p>");
+
+        // Add wind speed
+        $("#current-temperature-result").append("<p>Wind Speed: " + currentWeatherResponse.wind.speed.toFixed(1) + " MPH</p>");
+
+        // Add UV index
+        $("#current-temperature-result").append("<p>UV Index: " + currentWeatherUVResponse.value + "</p");
+        
+        /*
+        $("#current-temperature-result").append("<p>UV Index: ");
+        var UVIndexSpan = $("<span>");
+        $("#current-temperature-result").append(UVIndexSpan);
+        $("#current-temperature-result").append("</p>");
+        */
+
+        /*
+
+
+        // Get current weather conditions from response, copy to local variables
+        currentTemp = currentWeatherResponse.main.temp;
+        currentTemp = currentTemp.toFixed(1); // Show just one decimal point for temperature
+        currentHumidity = currentWeatherResponse.main.humidity;
+        currentWindSpeed = currentWeatherResponse.wind.speed;
+        currentWindSpeed = currentWindSpeed.toFixed(1); // Show just one decimal point for wind speed
+        currentUVIndex = currentWeatherUVResponse.value;
 
         // Create a div for the current temperature
         var currentTempDiv = $("<div>");
@@ -160,7 +190,8 @@ $(document).ready(function() {
         currentUVIndexValueSpan.text(currentUVIndex);
         currentUVIndexDiv.append(currentUVIndexValueSpan);
 
-        $("#current-temperature-result").append(cityNameDiv, currentTempDiv, currentHumidityDiv, currentWindSpeedDiv, currentUVIndexDiv);
+        // $("#current-temperature-result").append(cityNameDiv, currentTempDiv, currentHumidityDiv, currentWindSpeedDiv, currentUVIndexDiv);
+    */
     }
 
     // For the given city name, get the current weather conditions
@@ -201,8 +232,8 @@ $(document).ready(function() {
                     currentWeatherUVResponse = uVResponse;
 
                     // console.log(currentWeatherUVResponse);
-                    showCurrentWeatherCondiditons(cityName, currentWeatherResponse, currentWeatherUVResponse);
-
+                    // showCurrentWeatherCondiditons(cityName, currentWeatherResponse, currentWeatherUVResponse);
+                    showCurrentWeatherCondiditons(currentWeatherResponse, currentWeatherUVResponse);
                 });
             });
         }
@@ -210,11 +241,44 @@ $(document).ready(function() {
 
     //
     function showFiveDayForecast(forecastList) {
-      
-        if (forecastList) {
-            
-        }
+        var dateString = "";            // The current date, in M/D/YYYY format
+        var currentWeatherIconURL = ""; // The URL for the icon that corresponds to the current weather
 
+        if ((forecastList) && (forecastList.length > 0)) {
+            // console.log("first date = " + moment().add(1, "days").format("M-D-YYYY")); // debug
+            
+            // Create label for five day-forecast
+            fiveDayForecastLabelDiv = $("<h5>");
+            fiveDayForecastLabelDiv.text("5-Day Forecast:");
+
+            $("#five-day-forecast").append(fiveDayForecastLabelDiv);
+
+            // Cycle through first maxDaysInForecast days, display info
+            for (var i = 0; i < maxDaysInForecast; i++) {
+                var newForecastDayDiv = $("<div>");
+
+                // Make date string
+                dateString = moment().add(i, "days").format("M-D-YYYY");
+                newForecastDayDiv.append("<h6>" + dateString + "</h6>");
+
+                // Add weather icon
+                if ((forecastList[i].weather) && (forecastList[i].weather.length > 0)) {
+                    currentWeatherIconURL = "http://openweathermap.org/img/wn/" + forecastList[i].weather[0].icon + ".png";
+                    
+                    var currentWeatherIconImg = $("<img>");
+                    currentWeatherIconImg.attr("src", currentWeatherIconURL);
+                    newForecastDayDiv.append(currentWeatherIconImg);
+                }
+        
+                // Add temp
+                newForecastDayDiv.append("<p>Temp: " + forecastList[i].main.temp + "  °F</p>");
+
+                // Add humidity
+                newForecastDayDiv.append("<p>Humidity: " + forecastList[i].main.humidity + "%</p>");
+
+                $("#five-day-forecast").append(newForecastDayDiv);
+            }
+        }
     }
 
     // For the given city name, get the five-day forecast
@@ -240,7 +304,7 @@ $(document).ready(function() {
         var cityNameFromSearchButton = "";      // The namne of the city
 
         // Get the city name from the search text box
-        cityNameFromSearchButton = $("input[aria-label='city-input']").val();
+        cityNameFromSearchButton = $("input[aria-label='city-input']").val().trim();
 
         // If the user entered a city in the search text box, get that city's current and 5-day weather
         if (cityNameFromSearchButton) {  
@@ -251,6 +315,9 @@ $(document).ready(function() {
 });
 
 // to do
+// - Display 5-day forecast
+// - Load city list on startup
+// - Store new cities
 // - Check the return code on AJAX calls
 // - Style the UV Index
 // - Split out the UV Index function
