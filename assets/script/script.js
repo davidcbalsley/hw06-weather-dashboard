@@ -299,23 +299,67 @@ $(document).ready(function() {
     
     }
 
-    function updateCityButtons(cityName) {
-        // Nothing yet
+    // For a given city name --
+    // - If the city does not already appear in local storage, then add it
+    // - If the city appears in local storage, then rearrange local storage to 
+    //   put it at the beginning/top of the list
+    function updateLocalStorage(cityName) {
+        var existingCityNames = []; // List of city names from local storage
+        var updatedCityNames = [];  // Updated list of city names
 
-        // As a start, just create new button and add it to screen
-        var newButton = $("<button>");
-        newButton.addClass("clickable-city-name");
-        newButton.text(cityName);
+        if (cityName) {
+            // Get any existing city names from local storage
+            existingCityNames = JSON.parse(localStorage.getItem("weather-city-name-history"));
+            console.log("cityNames = " + existingCityNames); // debug
 
-        $("#clickable-city-names").prepend(newButton);
+            // If there are cities in local storage, point updatedCityNames to array
+            // of those objects
+            if (existingCityNames) {
+                updatedCityNames = existingCityNames;
+            }
+
+
+            // Create new entry for local storage
+            var newCityNameForLocalStorage = {
+                    name: cityName
+            };
+
+            updatedCityNames.unshift(newCityNameForLocalStorage); 
+            // Use unshift to add value to beginning of array, so that most recently
+            // searched city appears at top of list of buttons
+
+            // Store the list of city names in local storage
+            localStorage.setItem("weather-city-name-history", JSON.stringify(updatedCityNames)); 
+        }
     }
 
-    // 
+    // Read list of cities from local storage and display buttons for them
+    function updateCityButtons() {
+        var cityNamesFromLocalStorage = [];    // List of city names from local storage
+
+        $("#clickable-city-names").empty();
+
+        cityNamesFromLocalStorage = JSON.parse(localStorage.getItem("weather-city-name-history"));
+
+        if (cityNamesFromLocalStorage) {
+            for (var i = 0; i < cityNamesFromLocalStorage.length; i++) {
+                var newButton = $("<button>");
+                newButton.addClass("clickable-city-name");
+                newButton.text(cityNamesFromLocalStorage[i].name);
+                $("#clickable-city-names").append(newButton);
+            }
+        }
+    }
+
+    // For a given city name, get the current weather and five-day forecast
+    // and display them
+    // Also, update the list of city buttons
     function getAndDisplayWeatherForCity(cityName) {
         if (cityName) {
             getCurrentWeather(cityName);
             getFiveDayForecast(cityName);
-            updateCityButtons(cityName);
+            updateLocalStorage(cityName);
+            updateCityButtons();
         }
     }
 
@@ -350,12 +394,20 @@ $(document).ready(function() {
             getAndDisplayWeatherForCity(cityNameFromClickableButton);
         }
    });
+
+   // 
+    function init() {
+        // Create clickable city buttons for cities in local storage
+        updateCityButtons();
+    }
+
+    // On screen load
+    init();
 });
 
 
 
 // to do
-// - Create buttons for new cities
 // - Load city list on startup
 // - Store new cities
 // - Check the return code on AJAX calls
