@@ -268,6 +268,19 @@ $(document).ready(function() {
     function init() {
         // Create clickable city buttons for cities in local storage
         updateCityButtons();
+
+        // If there were a most recently searched city, on page load, get its
+        // city forecast and load it
+        var cityNamesFromLocalStorage = [];    // List of city names from local storage
+
+        cityNamesFromLocalStorage = JSON.parse(localStorage.getItem("weather-city-name-history"));
+
+        if (cityNamesFromLocalStorage) {
+            getAndDisplayWeatherForCity(cityNamesFromLocalStorage[0].name);
+            // This works because the code always puts the most recently 
+            // searched city at the head of the local storage array
+        }
+
     }
 
     // On screen load
