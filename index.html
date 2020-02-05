@@ -4,9 +4,12 @@
     <meta charset='utf-8'>
     <title>Weather Dashboard</title>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
+    <title>Weather Dashboard</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
+
     <!-- Bootstrap CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
@@ -14,8 +17,6 @@
     <link rel="stylesheet" href="assets/style/style.css">
 </head>
 <body>
-    <!-- Start by building the UI -->
-
     <!-- Main Bootstrap container -->
     <div class="container">
 
@@ -28,13 +29,17 @@
         <div class="row">
 
             <!-- Column for search and city history-->
-            <div class="col-4-lg">
+            <div class="col-3-lg">
                 
                 <!-- Search text box and magnifying glass -->
+                <label for="city-search">Search for a City:</label>
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" aria-label="city-input" aria-describedby="basic-addon2">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button" id="city-search">Button</button>
+                            <!-- <button class="btn btn-outline-secondary" type="button" id="city-search"> -->
+                            <button class="btn btn-primary" type="button" id="city-search">
+                                <i class="fas fa-search"></i>
+                            </button>
                         </div>
                 </div>
 
@@ -43,7 +48,7 @@
             </div>
 
             <!-- Column for current weather and 5-day forecast -->
-            <div class="col-8-lg">
+            <div class="col-9-lg">
 
                 <!-- Row for the current weather conditions -->
                 <div class="row">
