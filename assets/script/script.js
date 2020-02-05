@@ -218,10 +218,11 @@ $(document).ready(function() {
 
         if (cityNamesFromLocalStorage) {
             for (var i = 0; i < cityNamesFromLocalStorage.length; i++) {
-                var newButton = $("<button>");
-                newButton.addClass("clickable-city-name");
-                newButton.text(cityNamesFromLocalStorage[i].name);
-                $("#clickable-city-names").append(newButton);
+                var newListItem = $("<li>");
+                newListItem.addClass("list-group-item");
+                newListItem.addClass("clickable-city-name");
+                newListItem.text(cityNamesFromLocalStorage[i].name);
+                $("#clickable-city-names").append(newListItem);
             }
         }
     }

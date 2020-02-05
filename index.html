@@ -29,7 +29,7 @@
         <div class="row">
 
             <!-- Column for search and city history-->
-            <div class="col-3-lg">
+            <div class="col-3-lg bg-light" id="col-search-and-city-history">
                 
                 <!-- Search text box and magnifying glass -->
                 <label for="city-search">Search for a City:</label>
@@ -43,7 +43,13 @@
                 </div>
 
                 <!-- List of clickable city names -->
-                <span id="clickable-city-names"></span>
+                <!-- <span id="clickable-city-names"></span> -->
+
+                <div class="card">
+                    <ul class="list-group" "list-group-flush" id="clickable-city-names">
+
+                    </ul>
+                </div>
             </div>
 
             <!-- Column for current weather and 5-day forecast -->
@@ -74,3 +80,13 @@
     <script src="assets/script/script.js"></script>
 </body>
 </html>
+
+<!-- To do: 
+- Fix centering of text for WEather Dashboard
+- Create card for search and city list
+- Make city names appear as entries on card
+- Card for current conditions
+- Style city name
+- Style UV Index
+- Card for 5-day forecast
+- Card for each day in 5-day forecast-->
